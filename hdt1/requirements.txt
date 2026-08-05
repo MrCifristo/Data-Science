@@ -1,0 +1,15 @@
+# HDT1 - Pandas, SQL y DuckDB
+# Entorno: conda env "hdt1" (Python 3.12)
+#
+# Instalacion:
+#   conda activate hdt1
+#   pip install -r requirements.txt
+#   python -m ipykernel install --user --name hdt1 --display-name "Python (hdt1)"
+
+pandas==3.0.5
+duckdb==1.5.5
+numpy==2.5.1
+pyarrow==25.0.0
+
+# Kernel de Jupyter para correr el notebook desde VS Code
+ipykernel==7.3.0
