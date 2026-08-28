@@ -1,0 +1,14 @@
+{
+  "fuente": "Open-Meteo (archive API)",
+  "url": "https://archive-api.open-meteo.com/v1/archive",
+  "rango_fechas": [
+    "2026-05-01",
+    "2026-07-31"
+  ],
+  "fecha_descarga": "2026-08-27",
+  "filas": 92,
+  "variables": [
+    "temperature_2m_max",
+    "precipitation_sum"
+  ]
+}

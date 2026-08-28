@@ -1,0 +1,32 @@
+# Ciencia de Datos, Seccion A - Segundo semestre 2026
+# Entorno unico para las sesiones de clase y las hojas de trabajo.
+#
+# Instalacion:
+#   python3 -m venv .venv
+#   source .venv/bin/activate
+#   pip install -r requirements.txt
+#
+# Python 3.14 (probado con 3.14.7)
+
+# Base numerica y de datos (sesiones 2 y 3, HDT1-HDT3)
+numpy==2.5.1
+pandas==3.0.5
+pyarrow==25.0.0
+
+# SQL sobre DataFrames y formatos columnares (sesion 3, HDT1)
+duckdb==1.5.5
+polars==1.44.1
+lxml==6.1.2
+
+# Descarga de datos desde APIs (HDT2)
+requests==2.34.2
+
+# Graficas y datasets de ejemplo (HDT2, HDT3)
+matplotlib==3.11.1
+seaborn==0.13.2
+
+# Modelos (HDT3)
+scikit-learn==1.9.0
+
+# Kernel de Jupyter para correr los notebooks desde VS Code
+ipykernel==7.3.0
