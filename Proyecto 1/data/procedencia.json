@@ -1,0 +1,102 @@
+{
+  "proyecto": "Proyecto 1 - EDA + Baseline",
+  "autor": "Milton Beltran",
+  "curso": "Ciencia de Datos, Seccion A, segundo semestre 2026",
+  "pregunta": "Se explica el desempeno de una seleccion nacional de futbol por la economia y la poblacion de su pais? Y donde cae Guatemala respecto a esa expectativa?",
+  "fecha_descarga": "2026-09-14",
+  "fuentes": [
+    {
+      "id": "partidos",
+      "nombre": "International football results from 1872 to 2026",
+      "autor": "Mart Jurisoo (martj42)",
+      "url": "https://github.com/martj42/international_results",
+      "url_descarga": "https://raw.githubusercontent.com/martj42/international_results/master/results.csv",
+      "licencia": "CC0-1.0 (dominio publico)",
+      "archivos": ["results.csv", "former_names.csv", "shootouts.csv"],
+      "filas": 49547,
+      "rango_temporal": "1872-11-30 a 2026-08-26",
+      "unidad_observacion": "un partido internacional entre dos selecciones",
+      "columnas": {
+        "date": "fecha del partido",
+        "home_team": "seleccion local",
+        "away_team": "seleccion visitante",
+        "home_score": "goles del local en tiempo reglamentario y extra, sin penales",
+        "away_score": "goles del visitante en tiempo reglamentario y extra, sin penales",
+        "tournament": "nombre de la competicion (202 distintas; 37 por ciento son amistosos)",
+        "city": "ciudad sede",
+        "country": "pais sede",
+        "neutral": "True si se jugo en cancha neutral"
+      },
+      "notas": [
+        "Cero valores faltantes en las 9 columnas.",
+        "337 equipos, incluyendo selecciones no-FIFA (Ynys Mon, Shetland, Padania, Sapmi, Orkney). Se filtran.",
+        "Incluye estados desaparecidos: Czechoslovakia, Yugoslavia, German DR, Vietnam Republic.",
+        "Guatemala aparece en 554 partidos entre 1921 y 2026."
+      ]
+    },
+    {
+      "id": "economia",
+      "nombre": "World Development Indicators - Banco Mundial",
+      "url": "https://data.worldbank.org",
+      "url_descarga": "https://api.worldbank.org/v2/country/all/indicator/{INDICADOR}?format=json&per_page=25000",
+      "licencia": "CC BY 4.0",
+      "acceso": "API publica, sin llave de autenticacion",
+      "indicadores": {
+        "NY.GDP.PCAP.KD": "PIB per capita en dolares constantes de 2015",
+        "SP.POP.TOTL": "poblacion total"
+      },
+      "archivos": ["wb_NY.GDP.PCAP.KD.json", "wb_SP.POP.TOTL.json", "wb_countries.json"],
+      "filas": 17490,
+      "rango_temporal": "1960 a 2025",
+      "unidad_observacion": "una entidad-anio",
+      "notas": [
+        "IMPORTANTE: se usa NY.GDP.PCAP.KD (dolares constantes 2015), NO NY.GDP.PCAP.CD (dolares corrientes). En dolares corrientes el PIB per capita de Guatemala pasa de 353 a 4477 dolares entre 1970 y 2020 (12.7x), pero casi todo ese cambio es inflacion del dolar. En dolares constantes va de 2425 a 4006 (1.65x), que es el crecimiento real.",
+        "La API devuelve 265 entidades pero solo 217 son paises: 78 son agregados (World, Euro area, High income, Arab World, IDA only). Se filtran con wb_countries.json, donde los agregados tienen region == 'Aggregates'.",
+        "Cobertura del PIB por decada: 47.5 por ciento faltante en los anios 60, 3.4 por ciento en los 2010."
+      ]
+    },
+    {
+      "id": "poblacion_uk",
+      "nombre": "Population estimates time series - Office for National Statistics (Reino Unido)",
+      "url": "https://www.ons.gov.uk/peoplepopulationandcommunity/populationandmigration/populationestimates",
+      "url_descarga": "https://www.ons.gov.uk/peoplepopulationandcommunity/populationandmigration/populationestimates/timeseries/{SERIE}/pop/data",
+      "licencia": "Open Government Licence v3.0",
+      "acceso": "API publica en JSON, sin llave",
+      "series": {
+        "enpop": "Inglaterra",
+        "scpop": "Escocia",
+        "wapop": "Gales",
+        "nipop": "Irlanda del Norte",
+        "ukpop": "Reino Unido completo (control)"
+      },
+      "archivos": ["ons_enpop.json", "ons_scpop.json", "ons_wapop.json", "ons_nipop.json", "ons_ukpop.json"],
+      "rango_temporal": "1971 a 2024",
+      "unidad_observacion": "un pais-anio",
+      "razon_de_uso": "Inglaterra, Escocia, Gales e Irlanda del Norte juegan por separado en futbol, pero el Banco Mundial solo reporta 'United Kingdom'. Son 265 pais-anios del dataset de partidos, e incluyen a los fundadores del futbol internacional. La poblacion es el predictor mas fuerte del modelo (correlacion 0.32 contra 0.04 del PIB) y varia 30x entre Inglaterra e Irlanda del Norte, asi que aproximarla con el valor del Reino Unido seria un error grave. El PIB per capita si se aproxima con el valor del Reino Unido, marcado con la bandera gdppc_aproximado.",
+      "notas": [
+        "Cobertura 1971-2024, once anios menos que el Banco Mundial por el extremo inicial."
+      ]
+    }
+  ],
+  "fuentes_evaluadas_y_descartadas": [
+    {
+      "nombre": "Maddison Project Database 2023",
+      "url": "https://www.rug.nl/ggdc/historicaldevelopment/maddison/releases/maddison-project-database-2023",
+      "licencia": "CC BY 4.0",
+      "para_que_se_evaluo": "recuperar el PIB de los estados desaparecidos (Checoslovaquia, Yugoslavia, Alemania Democratica, Vietnam del Sur)",
+      "razon_del_descarte": [
+        "Solo cubre 2 de los 4 estados que necesitamos: tiene Czechoslovakia y Former Yugoslavia, pero no Alemania Democratica ni Vietnam del Sur. Recupera 66 pais-anios de 7792, es decir 0.8 por ciento de la muestra.",
+        "Las unidades son incompatibles con el Banco Mundial y el desfase no es constante, asi que no se corrige con un reescalamiento: Maddison usa dolares internacionales PPP de 2011 y el ratio contra el Banco Mundial pasa de 9.24 en 1970 a 1.80 en 2020.",
+        "Cubre 169 paises contra los 217 del Banco Mundial. Cambiar de fuente costaria 40 selecciones, sobre todo islas pequenas, mas de las que recupera.",
+        "El archivo viene en xlsx y requiere openpyxl, que no esta en requirements.txt."
+      ],
+      "resultado_util": "La evaluacion no se desperdicio: al comparar ambas fuentes se detecto que el indicador del Banco Mundial que se habia bajado primero (NY.GDP.PCAP.CD, dolares corrientes) mezclaba inflacion con crecimiento real. Se cambio a NY.GDP.PCAP.KD.",
+      "como_se_tratan_los_estados_desaparecidos": "Se documentan como faltante MNAR y se excluyen del modelo: el dato no existe porque el pais dejo de existir. Son 111 pais-anios (Czechoslovakia 34, Yugoslavia 32, German DR 29, Vietnam Republic 16)."
+    }
+  ],
+  "reproducibilidad": {
+    "python": "3.14.7",
+    "dependencias": "requirements.txt en la raiz del repositorio",
+    "nota": "Los archivos en data/raw/ son copias congeladas al 2026-09-14. Las APIs del Banco Mundial y de ONS siguen vivas y sus valores pueden cambiar por revisiones estadisticas."
+  }
+}

@@ -69,3 +69,8 @@ Thumbs.db
 
 # Logs
 *.log
+
+# Proyecto 1: los datos y la ficha de procedencia son parte del entregable.
+# Las negaciones van al final para que ganen sobre "data/" y "*.csv" de arriba.
+!Proyecto 1/data/
+!Proyecto 1/data/**
