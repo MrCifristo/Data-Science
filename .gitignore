@@ -74,3 +74,7 @@ Thumbs.db
 # Las negaciones van al final para que ganen sobre "data/" y "*.csv" de arriba.
 !Proyecto 1/data/
 !Proyecto 1/data/**
+
+# Entregas locales (copias comprimidas para subir a la plataforma)
+Entrega/
+*.zip
